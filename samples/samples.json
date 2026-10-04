@@ -1,0 +1,82 @@
+[
+  {
+    "file": "N15_M07_F10_K004_1.mat",
+    "bearing": "K004",
+    "label": 0,
+    "class_name": "Sain",
+    "condition": "N15_M07_F10",
+    "origin": "none",
+    "test_bearing_of_exported_model": true,
+    "synthetic": false
+  },
+  {
+    "file": "N09_M07_F10_K004_1.mat",
+    "bearing": "K004",
+    "label": 0,
+    "class_name": "Sain",
+    "condition": "N09_M07_F10",
+    "origin": "none",
+    "test_bearing_of_exported_model": true,
+    "synthetic": false
+  },
+  {
+    "file": "N15_M07_F10_KI03_1.mat",
+    "bearing": "KI03",
+    "label": 1,
+    "class_name": "Bague intérieure (BI)",
+    "condition": "N15_M07_F10",
+    "origin": "artificial",
+    "test_bearing_of_exported_model": true,
+    "synthetic": false
+  },
+  {
+    "file": "N09_M07_F10_KI03_1.mat",
+    "bearing": "KI03",
+    "label": 1,
+    "class_name": "Bague intérieure (BI)",
+    "condition": "N09_M07_F10",
+    "origin": "artificial",
+    "test_bearing_of_exported_model": true,
+    "synthetic": false
+  },
+  {
+    "file": "N15_M07_F10_KA05_1.mat",
+    "bearing": "KA05",
+    "label": 2,
+    "class_name": "Bague extérieure (BE)",
+    "condition": "N15_M07_F10",
+    "origin": "artificial",
+    "test_bearing_of_exported_model": true,
+    "synthetic": false
+  },
+  {
+    "file": "N09_M07_F10_KA05_1.mat",
+    "bearing": "KA05",
+    "label": 2,
+    "class_name": "Bague extérieure (BE)",
+    "condition": "N09_M07_F10",
+    "origin": "artificial",
+    "test_bearing_of_exported_model": true,
+    "synthetic": false
+  },
+  {
+    "file": "N15_M07_F10_KB24_1.mat",
+    "bearing": "KB24",
+    "label": 3,
+    "class_name": "Combiné (BI+BE)",
+    "condition": "N15_M07_F10",
+    "origin": "real",
+    "test_bearing_of_exported_model": true,
+    "synthetic": false
+  },
+  {
+    "file": "N09_M07_F10_KB24_1.mat",
+    "bearing": "KB24",
+    "label": 3,
+    "class_name": "Combiné (BI+BE)",
+    "condition": "N09_M07_F10",
+    "origin": "real",
+    "test_bearing_of_exported_model": true,
+    "synthetic": false
+  }
+]

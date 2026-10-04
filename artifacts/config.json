@@ -1,0 +1,347 @@
+{
+  "schema_version": 2,
+  "demo": false,
+  "created": "2026-10-04T00:24:49",
+  "dataset": "Paderborn University Bearing DataCenter (KAt)",
+  "class_keys": [
+    "healthy",
+    "inner",
+    "outer",
+    "combined"
+  ],
+  "class_names": [
+    "Sain",
+    "Bague intérieure (BI)",
+    "Bague extérieure (BE)",
+    "Combiné (BI+BE)"
+  ],
+  "raw_fs": 64000,
+  "bearing_geometry": {
+    "name": "6203 (Paderborn)",
+    "n_balls": 8,
+    "ball_diameter_mm": 6.75,
+    "pitch_diameter_mm": 28.55,
+    "contact_angle_deg": 0.0
+  },
+  "models": {
+    "fusion": {
+      "kind": "torch",
+      "file": "models/fusion.pt",
+      "label": "CNN fusion vibration + courant",
+      "model_cfg": {
+        "arch": "resnet1d",
+        "modalities": [
+          "vib",
+          "cur"
+        ],
+        "inputs": {
+          "vib": {
+            "fs": 64000,
+            "window": 4096,
+            "repr": "raw",
+            "norm": "global"
+          },
+          "cur": {
+            "fs": 16000,
+            "window": 4096,
+            "repr": "fft",
+            "norm": "global",
+            "fmax": 2000.0
+          }
+        },
+        "width": 32,
+        "emb_dim": 128,
+        "dropout": 0.2,
+        "fusion": "attention",
+        "modality_dropout": 0.0,
+        "n_classes": 4,
+        "norm_stats": {
+          "vib": {
+            "mean": 0.00790453388373057,
+            "std": 0.3413770905823987
+          },
+          "cur": {
+            "mean": -0.02574340536559932,
+            "std": 1.5808636445120636
+          }
+        }
+      },
+      "n_parameters": 2136201
+    },
+    "vib": {
+      "kind": "torch",
+      "file": "models/vib.pt",
+      "label": "CNN vibration seule",
+      "model_cfg": {
+        "arch": "resnet1d",
+        "modalities": [
+          "vib"
+        ],
+        "inputs": {
+          "vib": {
+            "fs": 64000,
+            "window": 4096,
+            "repr": "raw",
+            "norm": "global"
+          }
+        },
+        "width": 32,
+        "emb_dim": 128,
+        "dropout": 0.2,
+        "fusion": "attention",
+        "modality_dropout": 0.0,
+        "n_classes": 4,
+        "norm_stats": {
+          "vib": {
+            "mean": 0.00790453388373057,
+            "std": 0.3413770905823987
+          }
+        }
+      },
+      "n_parameters": 1072614
+    },
+    "cur": {
+      "kind": "torch",
+      "file": "models/cur.pt",
+      "label": "CNN courant seul",
+      "model_cfg": {
+        "arch": "multiscale",
+        "modalities": [
+          "cur"
+        ],
+        "inputs": {
+          "cur": {
+            "fs": 16000,
+            "window": 4096,
+            "repr": "fft",
+            "norm": "global",
+            "fmax": 2000.0
+          }
+        },
+        "width": 32,
+        "emb_dim": 128,
+        "dropout": 0.2,
+        "fusion": "attention",
+        "modality_dropout": 0.0,
+        "n_classes": 4,
+        "norm_stats": {
+          "cur": {
+            "mean": -0.02574340536559932,
+            "std": 1.5808636445120636
+          }
+        }
+      },
+      "n_parameters": 174374
+    },
+    "feat_fusion": {
+      "kind": "features",
+      "file": "models/feat_fusion.joblib",
+      "label": "Caractéristiques physiques + gradient boosting (vibration + courant)",
+      "feature_cfg": {
+        "modalities": [
+          "vib",
+          "cur"
+        ],
+        "inputs": {
+          "vib": {
+            "fs": 64000,
+            "window": 16384
+          },
+          "cur": {
+            "fs": 8000,
+            "window": 4096
+          }
+        }
+      },
+      "n_parameters": null
+    },
+    "feat_vib": {
+      "kind": "features",
+      "file": "models/feat_vib.joblib",
+      "label": "Caractéristiques physiques + gradient boosting (vibration seule)",
+      "feature_cfg": {
+        "modalities": [
+          "vib"
+        ],
+        "inputs": {
+          "vib": {
+            "fs": 64000,
+            "window": 16384
+          }
+        }
+      },
+      "n_parameters": null
+    },
+    "feat_cur": {
+      "kind": "features",
+      "file": "models/feat_cur.joblib",
+      "label": "Caractéristiques physiques + gradient boosting (courant seul)",
+      "feature_cfg": {
+        "modalities": [
+          "cur"
+        ],
+        "inputs": {
+          "cur": {
+            "fs": 8000,
+            "window": 4096
+          }
+        }
+      },
+      "n_parameters": null
+    }
+  },
+  "primary": {
+    "both": "feat_fusion",
+    "vib": "feat_vib",
+    "cur": "feat_cur"
+  },
+  "versions": {
+    "torch": "2.11.0+cu130",
+    "numpy": "2.1.3",
+    "sklearn": "1.6.1"
+  },
+  "inference": {
+    "hop_fraction": 0.25,
+    "max_windows": 400
+  },
+  "folds": [
+    {
+      "fold": 0,
+      "train": [
+        "K001",
+        "K002",
+        "K006",
+        "KA01",
+        "KA04",
+        "KA07",
+        "KA09",
+        "KA15",
+        "KA30",
+        "KB23",
+        "KB27",
+        "KI01",
+        "KI05",
+        "KI14",
+        "KI16",
+        "KI21"
+      ],
+      "val": [
+        "K003",
+        "KA03",
+        "KA08",
+        "KI08",
+        "KI17"
+      ],
+      "test": [
+        "K004",
+        "K005",
+        "KA05",
+        "KA06",
+        "KA16",
+        "KA22",
+        "KB24",
+        "KI03",
+        "KI04",
+        "KI07",
+        "KI18"
+      ]
+    },
+    {
+      "fold": 1,
+      "train": [
+        "K004",
+        "K005",
+        "K006",
+        "KA05",
+        "KA07",
+        "KA09",
+        "KA16",
+        "KA22",
+        "KA30",
+        "KB23",
+        "KB24",
+        "KI01",
+        "KI03",
+        "KI04",
+        "KI07",
+        "KI21"
+      ],
+      "val": [
+        "K001",
+        "KA03",
+        "KA06",
+        "KI17",
+        "KI18"
+      ],
+      "test": [
+        "K002",
+        "K003",
+        "KA01",
+        "KA04",
+        "KA08",
+        "KA15",
+        "KB27",
+        "KI05",
+        "KI08",
+        "KI14",
+        "KI16"
+      ]
+    },
+    {
+      "fold": 2,
+      "train": [
+        "K002",
+        "K003",
+        "K004",
+        "KA01",
+        "KA04",
+        "KA06",
+        "KA08",
+        "KA15",
+        "KA16",
+        "KB24",
+        "KB27",
+        "KI03",
+        "KI05",
+        "KI08",
+        "KI14",
+        "KI16",
+        "KI18"
+      ],
+      "val": [
+        "K005",
+        "KA05",
+        "KA22",
+        "KI04",
+        "KI07"
+      ],
+      "test": [
+        "K001",
+        "K006",
+        "KA03",
+        "KA07",
+        "KA09",
+        "KA30",
+        "KB23",
+        "KI01",
+        "KI17",
+        "KI21"
+      ]
+    }
+  ],
+  "exported_fold": 0,
+  "exported_test_bearings": [
+    "K004",
+    "K005",
+    "KA05",
+    "KA06",
+    "KA16",
+    "KA22",
+    "KB24",
+    "KI03",
+    "KI04",
+    "KI07",
+    "KI18"
+  ],
+  "source_notebook": "PFE_Diagnostic_v2.ipynb"
+}
